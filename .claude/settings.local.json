@@ -1,0 +1,8 @@
+{
+    "env": {
+        "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
+        "ANTHROPIC AUTH TOKEN": "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",
+        "ANTHROPIC API KEY": "",
+        "ANTHROPIC MODEL": "nvidia/nemotron-3-super-120b-a12b:frep"
+    }
+}

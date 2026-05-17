@@ -60,7 +60,7 @@ const LandingPage = () => {
       <nav id="navbar" className={scrolled ? 'scrolled' : ''}>
         <div className="nav-inner">
           <a href="#" className="logo">
-            PT. <span>Anugerah Rekayasa Energi Abadi</span>
+            PT. <span>Anugerah Abadi Nusantara</span>
           </a>
           <ul className="nav-links">
             <li><a href="#perusahaan" className={`nav-link ${activeNav === 'perusahaan' ? 'active' : ''}`}>Perusahaan</a></li>
@@ -123,7 +123,7 @@ const LandingPage = () => {
             {/* Text column */}
             <div className="about-text fade-in-up">
               <div className="section-divider"></div>
-              <p>PT Anugerah Rekayasa Energi Abadi adalah perusahaan yang bergerak di bidang jasa perdagangan, konstruksi, pengujian dan rekayasa energi.</p>
+              <p>PT Anugerah Abadi Nusantara adalah perusahaan yang bergerak di bidang jasa perdagangan, konstruksi, pengujian dan rekayasa energi.</p>
               <p>Kami berkomitmen untuk menyediakan solusi energi yang inovatif serta berkelanjutan.</p>
               <p>Didirikan pada Agustus 2025, perusahaan kami bertujuan menjadi pioneer dan pemimpin di bidang rekayasa energi di Indonesia dengan tim yang berpengalaman dan bersertifikat.</p>
               <a href="#" className="btn-primary" style={{ marginTop: '24px', display: 'inline-flex', width: 'fit-content' }}>
@@ -388,7 +388,7 @@ const LandingPage = () => {
               <a href="#" className="logo">
                 Bali.<span>Tour</span>
               </a>
-              <p>PT Anugerah Rekayasa Energi Abadi — Pioneer rekayasa energi di Indonesia yang berkomitmen untuk menyediakan solusi energi inovatif dan berkelanjutan.</p>
+              <p>PT Anugerah Abadi Nusantara — Pioneer rekayasa energi di Indonesia yang berkomitmen untuk menyediakan solusi energi inovatif dan berkelanjutan.</p>
               <div className="footer-social">
                 <a href="#" className="social-btn" aria-label="Instagram">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth="1.8">
@@ -473,7 +473,7 @@ const LandingPage = () => {
           </div>
 
           <div className="footer-bottom">
-            <span>© 2026 PT Anugerah Rekayasa Energi Abadi. Hak cipta dilindungi.</span>
+            <span>© 2026 PT Anugerah Abadi Nusantara. Hak cipta dilindungi.</span>
             <span>
               <a href="#">Kebijakan Privasi</a> &nbsp;·&nbsp;
               <a href="#">Syarat Ketentuan</a>
