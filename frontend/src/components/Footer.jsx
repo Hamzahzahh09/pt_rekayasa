@@ -85,7 +85,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <FiGlobe className="mr-3 flex-shrink-0 text-blue-300" size={18} />
-                <a href="https://www.area.co.id" target="_blank" rel="noopener noreferrer" className="underline hover:text-white transition-colors">www.area.co.id</a>
+                <a href="https://www.area70.co.id" target="_blank" rel="noopener noreferrer" className="underline hover:text-white transition-colors">www.area70.co.id</a>
               </li>
             </ul>
           </div>
