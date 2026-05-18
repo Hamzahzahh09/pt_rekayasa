@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiMapPin, FiPhone, FiMail, FiClock, FiArrowRight } from 'react-icons/fi';
+import { FiMapPin, FiPhone, FiMail, FiClock, FiArrowRight, FiGlobe } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 
 const fadeUp = {
@@ -10,29 +11,63 @@ const fadeUp = {
 const contactInfo = [
   {
     icon: <FiMapPin size={22} />,
-    label: 'Kantor Pusat',
-    lines: ['Jl. Industrial Estate No. 88', 'Kawasan Industri Terpadu', 'Jakarta, Indonesia 10220'],
-  },
-  {
-    icon: <FiPhone size={22} />,
-    label: 'Telepon',
-    lines: ['+62 21 555 0123 (Kantor)', '+62 811 555 0124 (Darurat 24/7)'],
-    links: ['tel:+62215550123', 'tel:+628115550124'],
+    label: 'Alamat',
+    lines: ['Jl.Guru Suma no.135 Rt.004/001', 'Cibinong-Bogor'],
   },
   {
     icon: <FiMail size={22} />,
     label: 'Email',
-    lines: ['info@anugerahabadinusantara.co.id', 'support@anugerahabadinusantara.co.id'],
-    links: ['mailto:info@anugerahabadinusantara.co.id', 'mailto:support@anugerahabadinusantara.co.id'],
+    lines: ['area70an@gmail.com', 'marketing@area.co.id'],
+    links: ['mailto:area70an@gmail.com', 'mailto:marketing@area.co.id'],
   },
   {
-    icon: <FiClock size={22} />,
-    label: 'Jam Operasional',
-    lines: ['Senin – Jumat: 08.00 – 17.00 WIB', 'Sabtu: 08.00 – 13.00 WIB'],
+    icon: <FiGlobe size={22} />,
+    label: 'Website',
+    lines: ['www.area.co.id'],
+    links: ['https://www.area.co.id'],
+  },
+  {
+    icon: <FiPhone size={22} />,
+    label: 'Contact Person',
+    lines: ['082128337789', '088973803316', '081317136515', '081311241768'],
+    links: ['tel:082128337789', 'tel:088973803316', 'tel:081317136515', 'tel:081311241768'],
   },
 ];
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    company: '',
+    email: '',
+    service: 'Instalasi HVAC',
+    message: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { firstName, lastName, company, email, service, message } = formData;
+
+    const textMessage = `Halo, saya ingin berkonsultasi mengenai proyek.
+
+*Nama:* ${firstName} ${lastName}
+*Perusahaan:* ${company || '-'}
+*Email:* ${email || '-'}
+*Layanan:* ${service}
+*Pesan:* ${message}`;
+
+    const encodedMessage = encodeURIComponent(textMessage);
+    const waUrl = `https://wa.me/6282128337789?text=${encodedMessage}`;
+    window.open(waUrl, '_blank');
+  };
+
   return (
     <div className="bg-background">
 
@@ -97,7 +132,7 @@ const Contact = () => {
 
             {/* WhatsApp CTA */}
             <a
-              href="https://wa.me/628115550124"
+              href="https://wa.me/6282128337789"
               target="_blank"
               rel="noreferrer"
               className="flex items-center justify-center gap-3 w-full bg-[#25D366] hover:bg-[#1ebd5c] text-white px-6 py-4 rounded-sm font-bold transition-colors text-lg shadow-lg no-underline"
@@ -113,31 +148,66 @@ const Contact = () => {
               <span className="text-xs font-bold uppercase tracking-widest text-accent mb-2 block">Formulir Kontak</span>
               <h3 className="text-2xl font-extrabold text-dark mb-6">Kirim Pesan kepada Kami</h3>
 
-              <form className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Nama Depan</label>
-                    <input type="text" placeholder="Budi" className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white" />
+                    <input 
+                      type="text" 
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      placeholder="Budi" 
+                      required
+                      className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white" 
+                    />
                   </div>
                   <div>
                     <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Nama Belakang</label>
-                    <input type="text" placeholder="Santoso" className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white" />
+                    <input 
+                      type="text" 
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      placeholder="Santoso" 
+                      className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white" 
+                    />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Nama Perusahaan</label>
-                  <input type="text" placeholder="PT Contoh Industri" className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white" />
+                  <input 
+                    type="text" 
+                    name="company"
+                    value={formData.company}
+                    onChange={handleChange}
+                    placeholder="PT Contoh Industri" 
+                    className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white" 
+                  />
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Alamat Email</label>
-                  <input type="email" placeholder="budi@perusahaan.co.id" className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white" />
+                  <input 
+                    type="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="budi@perusahaan.co.id" 
+                    required
+                    className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white" 
+                  />
                 </div>
 
                 <div>
                   <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Layanan yang Diminati</label>
-                  <select className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white">
+                  <select 
+                    name="service"
+                    value={formData.service}
+                    onChange={handleChange}
+                    className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white"
+                  >
                     <option>Instalasi HVAC</option>
                     <option>Rekayasa Elektrikal</option>
                     <option>Layanan Mekanikal</option>
@@ -149,10 +219,18 @@ const Contact = () => {
 
                 <div>
                   <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Pesan</label>
-                  <textarea rows="5" placeholder="Ceritakan kebutuhan proyek Anda..." className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white resize-none"></textarea>
+                  <textarea 
+                    rows="5" 
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="Ceritakan kebutuhan proyek Anda..." 
+                    required
+                    className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white resize-none"
+                  ></textarea>
                 </div>
 
-                <button type="button" className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-sm transition-all duration-300 text-lg flex items-center justify-center gap-2 shadow-lg hover:shadow-primary/30 hover:shadow-xl">
+                <button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-sm transition-all duration-300 text-lg flex items-center justify-center gap-2 shadow-lg hover:shadow-primary/30 hover:shadow-xl">
                   Kirim Pesan <FiArrowRight />
                 </button>
               </form>
@@ -165,8 +243,8 @@ const Contact = () => {
       <div className="bg-gray-100 h-64 flex items-center justify-center border-t border-gray-200">
         <div className="text-center">
           <FiMapPin className="text-primary mx-auto mb-3" size={36} />
-          <p className="text-gray-500 font-semibold">Kawasan Industri Terpadu, Jakarta</p>
-          <p className="text-gray-400 text-sm">Jl. Industrial Estate No. 88, Jakarta 10220</p>
+          <p className="text-gray-500 font-semibold">Cibinong-Bogor</p>
+          <p className="text-gray-400 text-sm">Jl.Guru Suma no.135 Rt.004/001</p>
         </div>
       </div>
 

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FiMapPin, FiPhone, FiMail, FiLinkedin, FiInstagram, FiFacebook } from 'react-icons/fi';
+import { FiMapPin, FiPhone, FiMail, FiLinkedin, FiInstagram, FiFacebook, FiGlobe } from 'react-icons/fi';
 
 const Footer = () => {
   return (
@@ -61,20 +61,31 @@ const Footer = () => {
             <h3 className="text-lg font-bold mb-6 uppercase tracking-wider">Contact Us</h3>
             <ul className="space-y-4 text-sm text-gray-300">
               <li className="flex items-start">
-                <FiMapPin className="mt-1 mr-3 flex-shrink-0 text-blue-300" />
+                <FiMapPin className="mt-1 mr-3 flex-shrink-0 text-blue-300" size={18} />
                 <span>
-                  Jakarta, Indonesia<br />
-                  Diterbitkan di Jakarta<br />
-                  Tanggal: 23 September 2025
+                  Jl.Guru Suma no.135 Rt.004/001<br />
+                  Cibinong-Bogor
                 </span>
               </li>
-              <li className="flex items-center">
-                <FiPhone className="mr-3 flex-shrink-0 text-blue-300" />
-                <a href="tel:+62215550123" className="underline hover:text-white transition-colors">+62 21 555 0123</a>
+              <li className="flex items-start">
+                <FiPhone className="mt-1 mr-3 flex-shrink-0 text-blue-300" size={18} />
+                <div className="flex flex-col">
+                  <a href="tel:082128337789" className="underline hover:text-white transition-colors">082128337789</a>
+                  <a href="tel:088973803316" className="underline hover:text-white transition-colors">088973803316</a>
+                  <a href="tel:081317136515" className="underline hover:text-white transition-colors">081317136515</a>
+                  <a href="tel:081311241768" className="underline hover:text-white transition-colors">081311241768</a>
+                </div>
+              </li>
+              <li className="flex items-start">
+                <FiMail className="mt-1 mr-3 flex-shrink-0 text-blue-300" size={18} />
+                <div className="flex flex-col">
+                  <a href="mailto:area70an@gmail.com" className="underline hover:text-white transition-colors">area70an@gmail.com</a>
+                  <a href="mailto:marketing@area.co.id" className="underline hover:text-white transition-colors">marketing@area.co.id</a>
+                </div>
               </li>
               <li className="flex items-center">
-                <FiMail className="mr-3 flex-shrink-0 text-blue-300" />
-                <a href="mailto:info@rekayasaenergiabadi.co.id" className="underline hover:text-white transition-colors">info@rekayasaenergiabadi.co.id</a>
+                <FiGlobe className="mr-3 flex-shrink-0 text-blue-300" size={18} />
+                <a href="https://www.area.co.id" target="_blank" rel="noopener noreferrer" className="underline hover:text-white transition-colors">www.area.co.id</a>
               </li>
             </ul>
           </div>
