@@ -1,9 +1,26 @@
-import { motion } from 'framer-motion';
-import { FiTarget, FiEye, FiShield, FiCheckCircle, FiFileText, FiActivity } from 'react-icons/fi';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence, useMotionValue, useTransform, animate } from 'framer-motion';
+import { FiTarget, FiEye, FiShield, FiCheckCircle, FiFileText, FiActivity, FiAward } from 'react-icons/fi';
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } }
+// -- CUSTOM ANIMATIONS --
+const blurFadeUp = {
+  hidden: { opacity: 0, y: 40, filter: 'blur(10px)' },
+  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+};
+
+const slideFromLeftBlur = {
+  hidden: { opacity: 0, x: -50, filter: 'blur(10px)' },
+  visible: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: 'easeOut' } }
+};
+
+const slideFromRightBlur = {
+  hidden: { opacity: 0, x: 50, filter: 'blur(10px)' },
+  visible: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: 'easeOut' } }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
 };
 
 const kbliList = [
@@ -39,27 +56,39 @@ const About = () => {
     <div className="bg-background">
 
       {/* ── HERO HEADER ── */}
-      <div className="relative bg-dark text-white py-28 px-4 overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <img src="/images/image 11.jpeg" alt="" className="w-full h-full object-cover" />
+      <div className="relative bg-dark text-white py-32 px-4 overflow-hidden min-h-[50vh] flex items-center">
+        <div className="absolute inset-0 opacity-25">
+          <motion.img 
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+            src="/images/image 11.jpeg" 
+            alt="" 
+            className="w-full h-full object-cover" 
+          />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-dark/90 via-primary/60 to-dark/90" />
-        <div className="relative max-w-7xl mx-auto text-center">
+        <div className="absolute inset-0 bg-gradient-to-r from-dark/95 via-primary/70 to-dark/95" />
+        <div className="relative max-w-7xl mx-auto text-center z-10">
           <motion.span
-            initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-            className="inline-block bg-accent/90 text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5"
+            initial={{ opacity: 0, y: 20, filter: 'blur(5px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 0.6 }}
+            className="inline-block bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-widest px-5 py-2 rounded-full mb-6"
           >
             Profil Perusahaan
           </motion.span>
           <motion.h1
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-            className="text-4xl md:text-6xl font-extrabold mb-5 leading-tight"
+            initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight drop-shadow-2xl"
           >
             PT Anugerah Rekayasa Energi Abadi
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
-            className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-light drop-shadow-md"
           >
             Pelopor Solusi Energi yang Inovatif dan Berkelanjutan di Indonesia.
           </motion.p>
@@ -67,14 +96,26 @@ const About = () => {
       </div>
 
       {/* ── COMPANY OVERVIEW ── */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 bg-white overflow-hidden relative">
+        <motion.div 
+          animate={{ y: [0, -20, 0] }}
+          transition={{ repeat: Infinity, duration: 15, ease: "easeInOut" }}
+          className="absolute top-1/4 left-10 w-72 h-72 bg-gray-50 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none" 
+        />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-              <span className="text-xs font-bold uppercase tracking-widest text-accent mb-3 block">Tentang Kami</span>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-dark mb-6 leading-tight">
+            <motion.div 
+              initial="hidden" 
+              whileInView="visible" 
+              viewport={{ once: true, margin: "-100px" }} 
+              variants={slideFromLeftBlur}
+            >
+              <span className="text-xs font-bold uppercase tracking-widest text-accent mb-4 block flex items-center gap-2">
+                <span className="w-8 h-[2px] bg-accent"></span> Tentang Kami
+              </span>
+              <h2 className="text-3xl md:text-5xl font-extrabold text-dark mb-6 leading-tight">
                 Membangun Masa Depan<br />
-                <span className="text-primary">Energi & Konstruksi Indonesia</span>
+                <span className="text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Energi & Konstruksi Indonesia</span>
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
                 PT Anugerah Rekayasa Energi Abadi adalah perusahaan yang bergerak di bidang jasa perdagangan, konstruksi, pengayaan dan rekayasa energi. Kami berkomitmen untuk menyediakan solusi energi yang inovatif serta berkelanjutan bagi kemajuan bangsa.
@@ -84,42 +125,82 @@ const About = () => {
               </p>
             </motion.div>
 
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="relative">
-              <img src="/images/image 16.jpeg" alt="Engineering Team" className="w-full h-96 object-cover rounded-sm shadow-xl" />
-              <div className="absolute -bottom-6 -left-6 bg-accent text-white p-6 rounded-sm shadow-xl hidden md:block">
-                <p className="text-sm uppercase tracking-wider font-semibold">Didirikan Pada</p>
+            <motion.div 
+              initial="hidden" 
+              whileInView="visible" 
+              viewport={{ once: true, margin: "-100px" }} 
+              variants={slideFromRightBlur}
+              className="relative"
+            >
+              {/* Image Reveal Mask */}
+              <motion.div 
+                initial={{ width: "100%" }}
+                whileInView={{ width: "0%" }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3, duration: 1, ease: [0.77, 0, 0.175, 1] }}
+                className="absolute inset-0 bg-white z-20"
+              />
+              <img src="/images/image 16.jpeg" alt="Engineering Team" className="w-full h-[450px] object-cover rounded-2xl shadow-2xl" />
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.5, x: -30 }}
+                whileInView={{ opacity: 1, scale: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.8, type: "spring", stiffness: 200, damping: 15 }}
+                className="absolute -bottom-6 -left-6 bg-accent text-white p-6 rounded-2xl shadow-2xl hidden md:block border-4 border-white"
+              >
+                <p className="text-xs uppercase tracking-widest font-bold text-white/80">Didirikan Pada</p>
                 <p className="text-3xl font-extrabold mt-1">Agustus 2025</p>
-              </div>
+              </motion.div>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* ── VISION & MISSION ── */}
-      <section className="py-20 bg-background">
+      <section className="py-24 bg-gray-50 overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-14">
-            <span className="text-xs font-bold uppercase tracking-widest text-accent mb-3 block">Arah Perusahaan</span>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-dark">Visi & Misi Kami</h2>
+          <motion.div 
+            initial="hidden" 
+            whileInView="visible" 
+            viewport={{ once: true, margin: "-100px" }} 
+            variants={blurFadeUp} 
+            className="text-center mb-16"
+          >
+            <span className="text-xs font-bold uppercase tracking-widest text-accent mb-4 block flex justify-center items-center gap-2">
+              <span className="w-8 h-[2px] bg-accent"></span> Arah Perusahaan <span className="w-8 h-[2px] bg-accent"></span>
+            </span>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-dark">Visi & Misi Kami</h2>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-              className="bg-white p-10 rounded-sm shadow-sm border-l-4 border-primary hover:shadow-lg transition-shadow">
-              <div className="bg-primary/10 w-14 h-14 flex items-center justify-center rounded-sm text-primary mb-6">
-                <FiEye size={28} />
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, type: "spring" }}
+              className="bg-white p-12 rounded-2xl shadow-sm border-t-8 border-primary hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500 group"
+            >
+              <div className="bg-primary/10 w-20 h-20 flex items-center justify-center rounded-xl text-primary mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-500 group-hover:scale-110 shadow-sm group-hover:shadow-primary/30">
+                <FiEye size={36} className="group-hover:rotate-6 transition-transform" />
               </div>
-              <h3 className="text-2xl font-extrabold text-dark mb-4">Visi</h3>
-              <p className="text-gray-600 leading-relaxed text-lg">
+              <h3 className="text-3xl font-extrabold text-dark mb-5">Visi</h3>
+              <p className="text-gray-600 leading-relaxed text-lg font-light">
                 Menjadi Perusahaan Energi dan Rekayasa terkemuka di Indonesia dengan Fokus pada Inovasi dan berkelanjutan.
               </p>
             </motion.div>
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-              className="bg-white p-10 rounded-sm shadow-sm border-l-4 border-accent hover:shadow-lg transition-shadow">
-              <div className="bg-accent/10 w-14 h-14 flex items-center justify-center rounded-sm text-accent mb-6">
-                <FiTarget size={28} />
+            
+            <motion.div 
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, type: "spring" }}
+              className="bg-white p-12 rounded-2xl shadow-sm border-t-8 border-accent hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] hover:-translate-y-2 transition-all duration-500 group"
+            >
+              <div className="bg-accent/10 w-20 h-20 flex items-center justify-center rounded-xl text-accent mb-8 group-hover:bg-accent group-hover:text-white transition-all duration-500 group-hover:scale-110 shadow-sm group-hover:shadow-accent/30">
+                <FiTarget size={36} className="group-hover:rotate-6 transition-transform" />
               </div>
-              <h3 className="text-2xl font-extrabold text-dark mb-4">Misi</h3>
-              <p className="text-gray-600 leading-relaxed text-lg">
+              <h3 className="text-3xl font-extrabold text-dark mb-5">Misi</h3>
+              <p className="text-gray-600 leading-relaxed text-lg font-light">
                 Menyediakan Solusi Energi yang inovatif, efisien dan ramah lingkungan serta meningkatkan kualitas hidup masyarakat.
               </p>
             </motion.div>
@@ -128,24 +209,41 @@ const About = () => {
       </section>
 
       {/* ── PRODUK DAN LAYANAN ── */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-16">
-            <span className="text-xs font-bold uppercase tracking-widest text-accent mb-3 block">Kompetensi Utama</span>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-dark">Produk & Layanan</h2>
+          <motion.div 
+            initial="hidden" 
+            whileInView="visible" 
+            viewport={{ once: true, margin: "-100px" }} 
+            variants={blurFadeUp} 
+            className="text-center mb-16"
+          >
+            <span className="text-xs font-bold uppercase tracking-widest text-accent mb-4 block flex justify-center items-center gap-2">
+              <span className="w-8 h-[2px] bg-accent"></span> Kompetensi Utama <span className="w-8 h-[2px] bg-accent"></span>
+            </span>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-dark">Produk & Layanan</h2>
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {productsList.map((item, idx) => (
               <motion.div
                 key={idx}
-                initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-                className="bg-background p-8 rounded-sm border border-gray-100 hover:shadow-lg transition-shadow duration-300"
+                initial={{ opacity: 0, y: 30 }} 
+                whileInView={{ opacity: 1, y: 0 }} 
+                viewport={{ once: true }} 
+                transition={{ delay: idx * 0.12, type: "spring", stiffness: 100, damping: 20 }}
+                className="bg-gray-50 p-8 rounded-2xl border border-gray-100 hover:bg-white hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.06)] hover:-translate-y-2.5 transition-all duration-500 group relative overflow-hidden flex flex-col justify-between"
               >
-                <div className="bg-accent/10 text-accent w-12 h-12 flex items-center justify-center rounded-sm mb-6">
-                  <FiActivity size={24} />
+                <div>
+                  <div className="bg-primary/10 text-primary w-14 h-14 flex items-center justify-center rounded-xl mb-6 group-hover:bg-primary group-hover:text-white transition-colors duration-500 shadow-sm">
+                    <FiActivity size={24} className="group-hover:rotate-12 transition-transform duration-300" />
+                  </div>
+                  <p className="text-gray-700 font-bold leading-relaxed text-lg group-hover:text-primary transition-colors">{item}</p>
                 </div>
-                <p className="text-gray-700 font-bold leading-relaxed">{item}</p>
+                <div className="mt-8 border-t border-gray-100 pt-4 flex justify-between items-center text-xs text-gray-400 font-bold tracking-widest uppercase">
+                  <span>Layanan Inti</span>
+                  <FiCheckCircle className="text-accent" size={16} />
+                </div>
               </motion.div>
             ))}
           </div>
@@ -153,30 +251,42 @@ const About = () => {
       </section>
 
       {/* ── LEGALITAS PERUSAHAAN ── */}
-      <section className="py-24 bg-dark text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="text-center mb-16">
-            <span className="text-xs font-bold uppercase tracking-widest text-accent mb-3 block">Kredibilitas & Kepercayaan</span>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-white">Legalitas Perusahaan</h2>
+      <section className="py-24 bg-dark text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div 
+            initial="hidden" 
+            whileInView="visible" 
+            viewport={{ once: true }} 
+            variants={blurFadeUp} 
+            className="text-center mb-16"
+          >
+            <span className="text-xs font-bold uppercase tracking-widest text-accent mb-4 block flex justify-center items-center gap-2">
+              <span className="w-8 h-[2px] bg-accent"></span> Kredibilitas & Kepercayaan <span className="w-8 h-[2px] bg-accent"></span>
+            </span>
+            <h2 className="text-3xl md:text-5xl font-extrabold text-white">Legalitas Perusahaan</h2>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
             {/* Akta & SK */}
             <motion.div
-              initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-              className="bg-white/5 border border-white/10 p-8 rounded-sm"
+              initial={{ opacity: 0, y: 30 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
+              viewport={{ once: true }} 
+              transition={{ delay: 0.1, type: "spring" }}
+              className="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:-translate-y-2 group"
             >
-              <div className="bg-accent/20 text-accent w-12 h-12 flex items-center justify-center rounded-sm mb-6">
-                <FiFileText size={24} />
+              <div className="bg-accent/20 text-accent w-14 h-14 flex items-center justify-center rounded-xl mb-8 group-hover:scale-110 transition-transform duration-500">
+                <FiFileText size={28} />
               </div>
-              <h4 className="text-lg font-bold mb-4">Akta & SK Menkumham</h4>
-              <ul className="space-y-4 text-sm text-gray-300">
-                <li>
-                  <span className="block text-gray-500 font-semibold text-xs uppercase">Akta Perusahaan</span>
+              <h4 className="text-xl font-extrabold mb-6 text-white group-hover:text-accent transition-colors">Akta & SK Menkumham</h4>
+              <ul className="space-y-5 text-gray-300">
+                <li className="bg-white/5 p-4 rounded-lg border border-white/5">
+                  <span className="block text-accent font-bold text-xs uppercase tracking-wider mb-1">Akta Perusahaan</span>
                   Akta pendirian No. 14 Notaris Raja Solehuddin, SH Tanggal 29-08-2025
                 </li>
-                <li>
-                  <span className="block text-gray-500 font-semibold text-xs uppercase">SK Menkumham</span>
+                <li className="bg-white/5 p-4 rounded-lg border border-white/5">
+                  <span className="block text-accent font-bold text-xs uppercase tracking-wider mb-1">SK Menkumham</span>
                   AHU-0075759.AH.01.01 TAHUN 2025
                 </li>
               </ul>
@@ -184,20 +294,23 @@ const About = () => {
 
             {/* Identitas Pajak */}
             <motion.div
-              initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-              className="bg-white/5 border border-white/10 p-8 rounded-sm"
+              initial={{ opacity: 0, y: 30 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
+              viewport={{ once: true }} 
+              transition={{ delay: 0.2, type: "spring" }}
+              className="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:-translate-y-2 group"
             >
-              <div className="bg-accent/20 text-accent w-12 h-12 flex items-center justify-center rounded-sm mb-6">
-                <FiShield size={24} />
+              <div className="bg-accent/20 text-accent w-14 h-14 flex items-center justify-center rounded-xl mb-8 group-hover:scale-110 transition-transform duration-500">
+                <FiShield size={28} />
               </div>
-              <h4 className="text-lg font-bold mb-4">Perpajakan</h4>
-              <ul className="space-y-4 text-sm text-gray-300">
-                <li>
-                  <span className="block text-gray-500 font-semibold text-xs uppercase">NPWP</span>
+              <h4 className="text-xl font-extrabold mb-6 text-white group-hover:text-accent transition-colors">Perpajakan</h4>
+              <ul className="space-y-5 text-gray-300">
+                <li className="bg-white/5 p-4 rounded-lg border border-white/5">
+                  <span className="block text-accent font-bold text-xs uppercase tracking-wider mb-1">NPWP</span>
                   1000 0000 0558 3058
                 </li>
-                <li>
-                  <span className="block text-gray-500 font-semibold text-xs uppercase">PKP</span>
+                <li className="bg-white/5 p-4 rounded-lg border border-white/5">
+                  <span className="block text-accent font-bold text-xs uppercase tracking-wider mb-1">PKP</span>
                   S-00767/SPPKP-CT/KPP.3307/2025
                 </li>
               </ul>
@@ -205,20 +318,23 @@ const About = () => {
 
             {/* NIB */}
             <motion.div
-              initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-              className="bg-white/5 border border-white/10 p-8 rounded-sm"
+              initial={{ opacity: 0, y: 30 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
+              viewport={{ once: true }} 
+              transition={{ delay: 0.3, type: "spring" }}
+              className="bg-white/5 border border-white/10 p-8 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:-translate-y-2 group"
             >
-              <div className="bg-accent/20 text-accent w-12 h-12 flex items-center justify-center rounded-sm mb-6">
-                <FiCheckCircle size={24} />
+              <div className="bg-accent/20 text-accent w-14 h-14 flex items-center justify-center rounded-xl mb-8 group-hover:scale-110 transition-transform duration-500">
+                <FiCheckCircle size={28} />
               </div>
-              <h4 className="text-lg font-bold mb-4">NIB & Registrasi</h4>
-              <ul className="space-y-4 text-sm text-gray-300">
-                <li>
-                  <span className="block text-gray-500 font-semibold text-xs uppercase">NIB</span>
+              <h4 className="text-xl font-extrabold mb-6 text-white group-hover:text-accent transition-colors">NIB & Registrasi</h4>
+              <ul className="space-y-5 text-gray-300">
+                <li className="bg-white/5 p-4 rounded-lg border border-white/5">
+                  <span className="block text-accent font-bold text-xs uppercase tracking-wider mb-1">NIB</span>
                   2309250062726
                 </li>
-                <li>
-                  <span className="block text-gray-500 font-semibold text-xs uppercase">Tanggal Penerbitan</span>
+                <li className="bg-white/5 p-4 rounded-lg border border-white/5">
+                  <span className="block text-accent font-bold text-xs uppercase tracking-wider mb-1">Tanggal Penerbitan</span>
                   Diterbitkan di Jakarta, tanggal: 23 September 2025
                 </li>
               </ul>
@@ -227,18 +343,30 @@ const About = () => {
 
           {/* KBLI List */}
           <motion.div
-            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}
-            className="bg-white/5 border border-white/10 p-8 md:p-12 rounded-sm"
+            initial="hidden" 
+            whileInView="visible" 
+            viewport={{ once: true }} 
+            variants={staggerContainer}
+            className="bg-white/5 border border-white/10 p-8 md:p-12 rounded-2xl"
           >
-            <h4 className="text-xl font-bold mb-8 text-accent border-b border-white/10 pb-4">Kode KBLI Terdaftar</h4>
+            <h4 className="text-2xl font-extrabold mb-10 text-accent border-b border-white/10 pb-5 flex items-center gap-3">
+              <FiAward /> Kode KBLI Terdaftar
+            </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {kbliList.map((kbli, idx) => (
-                <div key={idx} className="flex gap-4 items-start text-sm">
-                  <span className="bg-primary/20 text-primary font-bold px-2.5 py-1 rounded-sm text-xs">
+                <motion.div 
+                  key={idx} 
+                  variants={{
+                    hidden: { opacity: 0, x: -20 },
+                    visible: { opacity: 1, x: 0, transition: { type: "spring" } }
+                  }}
+                  className="flex gap-4 items-start text-sm bg-white/5 p-4 rounded-xl border border-transparent hover:border-white/10 hover:bg-white/10 transition-all duration-300"
+                >
+                  <span className="bg-primary/20 text-primary font-bold px-3 py-1.5 rounded-lg text-xs tracking-wider flex-shrink-0">
                     {kbli.code}
                   </span>
-                  <p className="text-gray-300 leading-snug">{kbli.title}</p>
-                </div>
+                  <p className="text-gray-300 leading-snug font-medium">{kbli.title}</p>
+                </motion.div>
               ))}
             </div>
           </motion.div>

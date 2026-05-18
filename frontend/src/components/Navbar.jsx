@@ -51,12 +51,6 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
-            <Link
-              to="/contact"
-              className="bg-primary hover:bg-primary/90 hover:shadow-lg text-white px-5 py-2.5 rounded-sm text-sm font-medium transition-all duration-200"
-            >
-              Get a Quote
-            </Link>
           </div>
 
           {/* Mobile menu button */}

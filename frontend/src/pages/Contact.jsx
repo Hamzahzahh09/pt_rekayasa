@@ -1,11 +1,27 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiMapPin, FiPhone, FiMail, FiClock, FiArrowRight, FiGlobe } from 'react-icons/fi';
+import { FiMapPin, FiPhone, FiMail, FiArrowRight, FiGlobe } from 'react-icons/fi';
 import { FaWhatsapp } from 'react-icons/fa';
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } }
+// -- CUSTOM ANIMATIONS --
+const blurFadeUp = {
+  hidden: { opacity: 0, y: 40, filter: 'blur(10px)' },
+  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+};
+
+const slideFromLeftBlur = {
+  hidden: { opacity: 0, x: -50, filter: 'blur(10px)' },
+  visible: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: 'easeOut' } }
+};
+
+const slideFromRightBlur = {
+  hidden: { opacity: 0, x: 50, filter: 'blur(10px)' },
+  visible: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.8, ease: 'easeOut' } }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
 };
 
 const contactInfo = [
@@ -72,86 +88,125 @@ const Contact = () => {
     <div className="bg-background">
 
       {/* ── HERO HEADER ── */}
-      <div className="relative bg-dark text-white py-28 px-4 overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <img src="/images/image 9.jpeg" alt="" className="w-full h-full object-cover" />
+      <div className="relative bg-dark text-white py-32 px-4 overflow-hidden min-h-[50vh] flex items-center">
+        <div className="absolute inset-0 opacity-25">
+          <motion.img 
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+            src="/images/image 9.jpeg" 
+            alt="" 
+            className="w-full h-full object-cover" 
+          />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-dark/90 via-primary/60 to-dark/90" />
-        <div className="relative max-w-7xl mx-auto text-center">
+        <div className="absolute inset-0 bg-gradient-to-r from-dark/95 via-primary/70 to-dark/95" />
+        <div className="relative max-w-7xl mx-auto text-center z-10">
           <motion.span
-            initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-            className="inline-block bg-accent/90 text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5"
+            initial={{ opacity: 0, y: 20, filter: 'blur(5px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 0.6 }}
+            className="inline-block bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-bold uppercase tracking-widest px-5 py-2 rounded-full mb-6"
           >
             Hubungi Kami
           </motion.span>
           <motion.h1
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-            className="text-4xl md:text-6xl font-extrabold mb-5"
+            initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight drop-shadow-2xl"
           >
             Kami Siap Membantu Anda
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
-            className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-light drop-shadow-md"
           >
             Konsultasikan kebutuhan rekayasa industri Anda dengan tim engineer berpengalaman kami.
           </motion.p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 overflow-hidden">
 
           {/* ── CONTACT INFO ── */}
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="lg:col-span-2 space-y-6">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-accent mb-2 block">Informasi Kontak</span>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-dark mb-4">Mari Berkolaborasi</h2>
-              <p className="text-gray-500 leading-relaxed">Kami siap mendiskusikan kebutuhan proyek Anda. Hubungi kami melalui salah satu kanal berikut atau isi formulir untuk kami tindak lanjuti.</p>
-            </div>
+          <motion.div 
+            initial="hidden" 
+            whileInView="visible" 
+            viewport={{ once: true, margin: "-100px" }} 
+            variants={staggerContainer} 
+            className="lg:col-span-2 space-y-8"
+          >
+            <motion.div variants={slideFromLeftBlur}>
+              <span className="text-xs font-bold uppercase tracking-widest text-accent mb-3 block flex items-center gap-2">
+                <span className="w-8 h-[2px] bg-accent"></span> Informasi Kontak
+              </span>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-dark mb-4 leading-tight">Mari Berkolaborasi</h2>
+              <p className="text-gray-500 leading-relaxed font-light">Kami siap mendiskusikan kebutuhan proyek Anda. Hubungi kami melalui salah satu kanal berikut atau isi formulir untuk kami tindak lanjuti.</p>
+            </motion.div>
 
             {contactInfo.map((c, i) => (
-              <div key={i} className="flex items-start gap-4 bg-white p-5 rounded-sm shadow-sm border border-gray-100 hover:border-primary/30 transition-colors group">
-                <div className="bg-primary/10 text-primary p-3 rounded-sm flex-shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
+              <motion.div 
+                key={i} 
+                variants={{
+                  hidden: { opacity: 0, x: -30 },
+                  visible: { opacity: 1, x: 0, transition: { type: "spring" } }
+                }}
+                className="flex items-start gap-5 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-primary/20 hover:shadow-lg transition-all duration-500 group"
+              >
+                <div className="bg-primary/5 text-primary p-4 rounded-xl flex-shrink-0 group-hover:bg-primary group-hover:text-white transition-all duration-500 group-hover:scale-110 shadow-sm">
                   {c.icon}
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">{c.label}</p>
+                  <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">{c.label}</p>
                   {c.lines.map((line, li) => (
                     c.links ? (
-                      <a key={li} href={c.links[li]} className="block text-gray-700 text-sm font-medium hover:text-primary transition-colors no-underline">
+                      <a key={li} href={c.links[li]} className="block text-gray-700 text-sm md:text-base font-bold hover:text-primary transition-colors no-underline">
                         {line}
                       </a>
                     ) : (
-                      <p key={li} className="text-gray-700 text-sm font-medium">{line}</p>
+                      <p key={li} className="text-gray-700 text-sm md:text-base font-bold">{line}</p>
                     )
                   ))}
                 </div>
-              </div>
+              </motion.div>
             ))}
 
             {/* WhatsApp CTA */}
-            <a
+            <motion.a
+              variants={{
+                hidden: { opacity: 0, scale: 0.9 },
+                visible: { opacity: 1, scale: 1, transition: { delay: 0.6, type: "spring" } }
+              }}
               href="https://wa.me/6282128337789"
               target="_blank"
               rel="noreferrer"
-              className="flex items-center justify-center gap-3 w-full bg-[#25D366] hover:bg-[#1ebd5c] text-white px-6 py-4 rounded-sm font-bold transition-colors text-lg shadow-lg no-underline"
+              className="flex items-center justify-center gap-3 w-full bg-[#25D366] hover:bg-[#1ebd5c] text-white px-8 py-5 rounded-xl font-bold transition-all duration-300 text-lg shadow-[0_10px_20px_rgba(37,211,102,0.3)] hover:shadow-[0_15px_30px_rgba(37,211,102,0.45)] hover:-translate-y-1 no-underline"
             >
-              <FaWhatsapp size={24} />
+              <FaWhatsapp size={24} className="animate-bounce" />
               Chat via WhatsApp
-            </a>
+            </motion.a>
           </motion.div>
 
           {/* ── CONTACT FORM ── */}
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="lg:col-span-3">
-            <div className="bg-white p-10 rounded-sm shadow-sm border border-gray-100">
-              <span className="text-xs font-bold uppercase tracking-widest text-accent mb-2 block">Formulir Kontak</span>
-              <h3 className="text-2xl font-extrabold text-dark mb-6">Kirim Pesan kepada Kami</h3>
+          <motion.div 
+            initial="hidden" 
+            whileInView="visible" 
+            viewport={{ once: true, margin: "-100px" }} 
+            variants={slideFromRightBlur} 
+            className="lg:col-span-3"
+          >
+            <div className="bg-white p-10 md:p-12 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-shadow duration-500">
+              <span className="text-xs font-bold uppercase tracking-widest text-accent mb-3 block flex items-center gap-2">
+                <span className="w-8 h-[2px] bg-accent"></span> Formulir Kontak
+              </span>
+              <h3 className="text-2xl md:text-3xl font-extrabold text-dark mb-8 leading-tight">Kirim Pesan kepada Kami</h3>
 
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Nama Depan</label>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2.5">Nama Depan</label>
                     <input 
                       type="text" 
                       name="firstName"
@@ -159,36 +214,36 @@ const Contact = () => {
                       onChange={handleChange}
                       placeholder="Budi" 
                       required
-                      className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white" 
+                      className="w-full border border-gray-200 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white text-sm" 
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Nama Belakang</label>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2.5">Nama Belakang</label>
                     <input 
                       type="text" 
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleChange}
                       placeholder="Santoso" 
-                      className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white" 
+                      className="w-full border border-gray-200 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white text-sm" 
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Nama Perusahaan</label>
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2.5">Nama Perusahaan</label>
                   <input 
                     type="text" 
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
                     placeholder="PT Contoh Industri" 
-                    className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white" 
+                    className="w-full border border-gray-200 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white text-sm" 
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Alamat Email</label>
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2.5">Alamat Email</label>
                   <input 
                     type="email" 
                     name="email"
@@ -196,17 +251,17 @@ const Contact = () => {
                     onChange={handleChange}
                     placeholder="budi@perusahaan.co.id" 
                     required
-                    className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white" 
+                    className="w-full border border-gray-200 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white text-sm" 
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Layanan yang Diminati</label>
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2.5">Layanan yang Diminati</label>
                   <select 
                     name="service"
                     value={formData.service}
                     onChange={handleChange}
-                    className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white"
+                    className="w-full border border-gray-200 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white text-sm font-semibold text-gray-700"
                   >
                     <option>Instalasi HVAC</option>
                     <option>Rekayasa Elektrikal</option>
@@ -218,7 +273,7 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Pesan</label>
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2.5">Pesan</label>
                   <textarea 
                     rows="5" 
                     name="message"
@@ -226,11 +281,11 @@ const Contact = () => {
                     onChange={handleChange}
                     placeholder="Ceritakan kebutuhan proyek Anda..." 
                     required
-                    className="w-full border border-gray-200 rounded-sm px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white resize-none"
+                    className="w-full border border-gray-200 rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all bg-gray-50 focus:bg-white resize-none text-sm leading-relaxed"
                   ></textarea>
                 </div>
 
-                <button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-sm transition-all duration-300 text-lg flex items-center justify-center gap-2 shadow-lg hover:shadow-primary/30 hover:shadow-xl">
+                <button type="submit" className="w-full bg-primary hover:bg-primary/95 text-white font-bold py-5 rounded-xl transition-all duration-300 text-lg flex items-center justify-center gap-3 shadow-lg hover:shadow-primary/30 hover:shadow-xl hover:-translate-y-0.5">
                   Kirim Pesan <FiArrowRight />
                 </button>
               </form>
@@ -239,14 +294,23 @@ const Contact = () => {
         </div>
       </div>
 
-      {/* ── MAP PLACEHOLDER ── */}
-      <div className="bg-gray-100 h-64 flex items-center justify-center border-t border-gray-200">
-        <div className="text-center">
-          <FiMapPin className="text-primary mx-auto mb-3" size={36} />
-          <p className="text-gray-500 font-semibold">Cibinong-Bogor</p>
-          <p className="text-gray-400 text-sm">Jl.Guru Suma no.135 Rt.004/001</p>
+      {/* ── MAP BANNER ── */}
+      <motion.div 
+        initial={{ opacity: 0, filter: "blur(5px)" }}
+        whileInView={{ opacity: 1, filter: "blur(0px)" }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
+        className="bg-gray-900 h-80 flex items-center justify-center border-t border-white/5 relative overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-cover bg-center opacity-10 pointer-events-none" style={{ backgroundImage: `url('/images/image 9.jpeg')` }} />
+        <div className="text-center relative z-10 p-6">
+          <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg shadow-primary/30">
+            <FiMapPin className="text-white" size={24} />
+          </div>
+          <p className="text-white font-extrabold text-2xl mb-1">Cibinong, Bogor</p>
+          <p className="text-gray-400 text-sm font-medium tracking-wide">Jl.Guru Suma no.135 Rt.004/001</p>
         </div>
-      </div>
+      </motion.div>
 
     </div>
   );

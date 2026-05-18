@@ -11,11 +11,13 @@ import Berita from './pages/Berita';
 import BeritaDetail from './pages/BeritaDetail';
 import AdminCMS from './pages/AdminCMS';
 import AdminLogin from './pages/AdminLogin';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <AuthProvider>
       <Router>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<Home />} />
