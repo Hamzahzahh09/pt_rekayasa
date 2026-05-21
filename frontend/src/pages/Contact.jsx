@@ -34,13 +34,13 @@ const contactInfo = [
     icon: <FiMail size={22} />,
     label: 'Email',
     lines: ['area70an@gmail.com', 'marketing@area.co.id'],
-    links: ['mailto:area70an@gmail.com', 'mailto:marketing@area.co.id'],
+    links: ['mailto:area70an@gmail.com'],
   },
   {
     icon: <FiGlobe size={22} />,
     label: 'Website',
-    lines: ['www.area.co.id'],
-    links: ['https://www.area.co.id'],
+    lines: ['www.area70.co.id'],
+    links: ['https://www.area70.co.id'],
   },
   {
     icon: <FiPhone size={22} />,

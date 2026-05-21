@@ -80,7 +80,6 @@ const Footer = () => {
                 <FiMail className="mt-1 mr-3 flex-shrink-0 text-blue-300" size={18} />
                 <div className="flex flex-col">
                   <a href="mailto:area70an@gmail.com" className="underline hover:text-white transition-colors">area70an@gmail.com</a>
-                  <a href="mailto:marketing@area.co.id" className="underline hover:text-white transition-colors">marketing@area.co.id</a>
                 </div>
               </li>
               <li className="flex items-center">
