@@ -33,7 +33,7 @@ const contactInfo = [
   {
     icon: <FiMail size={22} />,
     label: 'Email',
-    lines: ['area70an@gmail.com', 'marketing@area.co.id'],
+    lines: ['area70an@gmail.com'],
     links: ['mailto:area70an@gmail.com'],
   },
   {
