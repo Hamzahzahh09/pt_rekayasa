@@ -8,7 +8,7 @@ const expressApp = express();
 
 // Konfigurasi CORS dari environment variable
 const getCorsOrigins = (): string[] => {
-  const defaultOrigins = ['http://localhost:5173', 'http://localhost:3000', 'https://pt-rekayasa.vercel.app'];
+  const defaultOrigins = ['http://localhost:5173', 'http://localhost:3000', 'https://pt-rekayasa.vercel.app', 'https://area70.co.id'];
   const envOrigins = process.env.CORS_ORIGINS;
   
   if (envOrigins) {
