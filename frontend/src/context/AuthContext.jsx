@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { API_ENDPOINTS } from '../config/api';
 
 const AuthContext = createContext(null);
 
@@ -16,7 +17,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (username, password) => {
-    const res = await fetch('http://localhost:5000/api/auth/login', {
+    const res = await fetch(API_ENDPOINTS.LOGIN, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),

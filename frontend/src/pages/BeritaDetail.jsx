@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FiCalendar, FiUser, FiArrowLeft, FiTag, FiArrowRight } from 'react-icons/fi';
 import { MOCK_NEWS } from './Berita';
+import { API_ENDPOINTS } from '../config/api';
 
 // -- CUSTOM ANIMATIONS --
 const blurFadeUp = {
@@ -17,14 +18,14 @@ const BeritaDetail = () => {
   const [related, setRelated] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/news/${id}`)
+    fetch(API_ENDPOINTS.NEWS_BY_ID(id))
       .then(res => {
         if (!res.ok) throw new Error('Not found');
         return res.json();
       })
       .then(found => {
         setArticle(found);
-        fetch('http://localhost:5000/api/news')
+        fetch(API_ENDPOINTS.NEWS)
           .then(res => res.json())
           .then(all => {
             if (Array.isArray(all) && all.length > 0) {

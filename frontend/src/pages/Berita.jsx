@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiCalendar, FiUser, FiArrowRight, FiSearch, FiBookOpen } from 'react-icons/fi';
+import { API_ENDPOINTS } from '../config/api';
 
 // -- CUSTOM ANIMATIONS --
 const blurFadeUp = {
@@ -21,7 +22,7 @@ const Berita = () => {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/news')
+    fetch(API_ENDPOINTS.NEWS)
       .then(res => {
         if (!res.ok) throw new Error('Network error');
         return res.json();

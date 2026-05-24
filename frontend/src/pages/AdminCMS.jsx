@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiPlus, FiTrash2, FiEdit2, FiSave, FiX, FiCheckCircle, FiAlertCircle, FiImage, FiFileText, FiLogOut } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
+import { API_ENDPOINTS } from '../config/api';
 
 const AdminCMS = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const AdminCMS = () => {
   }, [user, loading, navigate]);
 
   const fetchNews = () => {
-    fetch('http://localhost:5000/api/news')
+    fetch(API_ENDPOINTS.NEWS)
       .then(res => res.json())
       .then(data => setArticles(data))
       .catch(err => console.error('Error fetching news:', err));
@@ -74,8 +75,8 @@ const AdminCMS = () => {
     };
 
     const url = isEditing 
-      ? `http://localhost:5000/api/news/${currentArticle.id}` 
-      : 'http://localhost:5000/api/news';
+      ? API_ENDPOINTS.NEWS_BY_ID(currentArticle.id) 
+      : API_ENDPOINTS.NEWS;
     
     const method = isEditing ? 'PUT' : 'POST';
 
@@ -126,7 +127,7 @@ const AdminCMS = () => {
 
   const handleDelete = (id) => {
     if (window.confirm('Apakah Anda yakin ingin menghapus berita ini?')) {
-      authFetch(`http://localhost:5000/api/news/${id}`, { method: 'DELETE' })
+      authFetch(API_ENDPOINTS.NEWS_BY_ID(id), { method: 'DELETE' })
         .then(res => {
           if (!res.ok) throw new Error('Delete failed');
           showMessage('success', 'Berita telah dihapus');
