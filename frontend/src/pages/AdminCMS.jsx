@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiPlus, FiTrash2, FiEdit2, FiSave, FiX, FiCheckCircle, FiAlertCircle, FiImage, FiFileText, FiLogOut } from 'react-icons/fi';
+import { FiPlus, FiTrash2, FiEdit2, FiSave, FiX, FiCheckCircle, FiAlertCircle, FiImage, FiFileText, FiLogOut, FiUploadCloud } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
 import { API_ENDPOINTS } from '../config/api';
 
@@ -11,6 +11,8 @@ const AdminCMS = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [currentArticle, setCurrentArticle] = useState(null);
   const [message, setMessage] = useState({ type: '', text: '' });
+
+  const fileInputRef = useRef(null);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -108,6 +110,7 @@ const AdminCMS = () => {
     });
     setIsEditing(false);
     setCurrentArticle(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const handleEdit = (article) => {
@@ -236,14 +239,55 @@ const AdminCMS = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">URL Gambar Sampul</label>
-                    <div className="relative">
-                      <FiImage className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                      <input 
-                        type="text" name="coverImage" value={formData.coverImage} onChange={handleInputChange}
-                        className="w-full border border-gray-200 rounded-sm pl-10 pr-4 py-2.5 focus:ring-2 focus:ring-primary focus:outline-none text-sm"
-                        placeholder="https://images.unsplash.com/..."
-                      />
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Gambar Sampul</label>
+                    <div className="space-y-3">
+                      {formData.coverImage && (
+                        <div className="relative rounded-sm overflow-hidden border border-gray-200 bg-gray-50">
+                          <img 
+                            src={formData.coverImage} 
+                            alt="Preview" 
+                            className="w-full h-48 object-cover"
+                            onError={(e) => { e.target.style.display = 'none' }}
+                          />
+                          <button 
+                            type="button"
+                            onClick={() => setFormData(prev => ({ ...prev, coverImage: '' }))}
+                            className="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full hover:bg-red-600 transition-colors shadow-md"
+                          >
+                            <FiX size={14} />
+                          </button>
+                        </div>
+                      )}
+                      <div className="flex gap-3">
+                        <label className="flex-1 flex items-center justify-center gap-2 border-2 border-dashed border-gray-300 hover:border-primary rounded-sm px-4 py-4 cursor-pointer transition-colors bg-gray-50 hover:bg-blue-50">
+                          <FiUploadCloud className="text-primary" size={20} />
+                          <span className="text-sm text-gray-600 font-medium">Upload dari File</span>
+                          <input 
+                            ref={fileInputRef}
+                            type="file" 
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const reader = new FileReader();
+                                reader.onload = (ev) => {
+                                  setFormData(prev => ({ ...prev, coverImage: ev.target?.result || '' }));
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                            }}
+                          />
+                        </label>
+                      </div>
+                      <div className="relative">
+                        <FiImage className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                        <input 
+                          type="text" name="coverImage" value={formData.coverImage} onChange={handleInputChange}
+                          className="w-full border border-gray-200 rounded-sm pl-10 pr-4 py-2.5 focus:ring-2 focus:ring-primary focus:outline-none text-sm"
+                          placeholder="Atau masukkan URL gambar..."
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
