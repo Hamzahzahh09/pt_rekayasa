@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DeepPartial } from 'typeorm';
 import { News } from './entities/news.entity';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -29,7 +29,7 @@ export class NewsService implements OnModuleInit {
       const items = Array.isArray(data) ? data : data.news || [];
 
       for (const item of items) {
-        const news = this.newsRepository.create({
+        const newsEntity = this.newsRepository.create({
           title: item.title,
           category: item.category,
           author: item.author,
@@ -39,8 +39,8 @@ export class NewsService implements OnModuleInit {
           tags: item.tags || [],
           createdAt: item.createdAt ? new Date(item.createdAt) : new Date(),
           updatedAt: item.updatedAt ? new Date(item.updatedAt) : new Date(),
-        });
-        await this.newsRepository.save(news);
+        }) as News;
+        await this.newsRepository.save(newsEntity);
       }
     } catch {
       console.warn('Seed from db.json skipped or failed');
@@ -58,11 +58,11 @@ export class NewsService implements OnModuleInit {
   }
 
   async create(createNewsDto: any): Promise<News> {
-    const news = this.newsRepository.create({
+    const newsEntity = this.newsRepository.create({
       ...createNewsDto,
       tags: createNewsDto.tags || [],
-    });
-    return this.newsRepository.save(news);
+    } as DeepPartial<News>);
+    return this.newsRepository.save(newsEntity);
   }
 
   async update(id: number, updateNewsDto: any): Promise<News> {

@@ -25,14 +25,17 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 bg-white shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
-          <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex flex-col justify-center leading-none">
-              <span className="font-extrabold text-lg sm:text-xl text-primary tracking-wider">
-                PT ANUGERAH REKAYASA
-              </span>
-              <span className="font-bold text-[10px] sm:text-xs text-secondary tracking-widest uppercase mt-0.5">
-                ENERGI ABADI
-              </span>
+          <div className="flex items-center gap-3">
+            <Link to="/" className="flex-shrink-0 flex items-center gap-3">
+              <img src="/images/logo.png" alt="Logo PT AREA" className="h-10 w-10 object-contain" />
+              <div className="flex flex-col justify-center leading-none">
+                <span className="font-extrabold text-lg sm:text-xl text-primary tracking-wider">
+                  PT ANUGERAH REKAYASA
+                </span>
+                <span className="font-bold text-[10px] sm:text-xs text-secondary tracking-widest uppercase mt-0.5">
+                  ENERGI ABADI
+                </span>
+              </div>
             </Link>
           </div>
 

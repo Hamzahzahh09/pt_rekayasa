@@ -20,7 +20,7 @@ export class News {
   @Column({ type: 'text', nullable: true })
   excerpt: string;
 
-  @Column({ type: 'longtext' })
+  @Column({ type: 'text' })
   content: string;
 
   @Column({ type: 'json', nullable: true })

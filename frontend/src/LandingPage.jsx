@@ -60,6 +60,7 @@ const LandingPage = () => {
       <nav id="navbar" className={scrolled ? 'scrolled' : ''}>
         <div className="nav-inner">
           <a href="#" className="logo">
+            <img src="/images/logo.png" alt="Logo PT AREA" className="logo-img" />
             PT. <span>Anugerah Abadi Nusantara</span>
           </a>
           <ul className="nav-links">
