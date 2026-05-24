@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiCalendar, FiUser, FiArrowRight, FiSearch, FiBookOpen } from 'react-icons/fi';
+import { FiCalendar, FiUser, FiArrowRight, FiSearch, FiBookOpen, FiLoader } from 'react-icons/fi';
 import { API_ENDPOINTS } from '../config/api';
 
 // -- CUSTOM ANIMATIONS --
@@ -20,8 +20,10 @@ export const MOCK_NEWS = [];
 const Berita = () => {
   const [articles, setArticles] = useState([]);
   const [search, setSearch] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     fetch(API_ENDPOINTS.NEWS)
       .then(res => {
         if (!res.ok) throw new Error('Network error');
@@ -38,7 +40,8 @@ const Berita = () => {
       .catch(err => {
         console.warn('API error, falling back to mock news:', err);
         setArticles(MOCK_NEWS);
-      });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const filtered = articles.filter(
@@ -119,7 +122,16 @@ const Berita = () => {
           />
         </motion.div>
 
-        {filtered.length === 0 ? (
+        {loading ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex flex-col items-center justify-center py-32"
+          >
+            <FiLoader className="text-primary animate-spin mb-5" size={48} />
+            <p className="text-gray-500 text-lg font-medium">Memuat berita...</p>
+          </motion.div>
+        ) : filtered.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
